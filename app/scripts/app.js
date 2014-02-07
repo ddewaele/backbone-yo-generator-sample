@@ -4,9 +4,8 @@ define([
   'underscore',
   'backbone',
   'routes/blog',
-  'routes/product',
   'handlebars' 
-], function($, _, Backbone, BlogRouter,ProductRouter,Handlebars){
+], function($, _, Backbone, BlogRouter,Handlebars){
   var initialize = function(){
     BlogRouter.initialize();
 

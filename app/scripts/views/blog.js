@@ -23,7 +23,7 @@ define([
 	
 	      success: function (data) {
 	        console.log("Found blogs = " + data);
-        	that.$el.html(that.template({ blogs: data.models }))
+        	that.$el.html(that.template({ blogs: data.toJSON() }))
           	return this;  
 
 	      },

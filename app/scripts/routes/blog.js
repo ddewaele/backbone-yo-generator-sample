@@ -4,35 +4,36 @@ define([
     'jquery',
     'backbone',
     'views/blog',
-], function ($, Backbone,BlogView) {
+    'views/blog-edit'
+], function ($, Backbone,BlogListView,BlogEditView) {
     'use strict';
 
     var BlogRouter = Backbone.Router.extend({
         routes: {
-        	 "blogs" : "viewBlogs"
+        	 "blogs" : "viewBlogs",
+        	 "blogs/edit/:blogId" : "viewBlog"
+
         }
     });
 
     var initialize = function(){
-    	console.log("inside initialize BlogRouter");
-    	
+
     	var router = new BlogRouter;
     
 	    router.on('route:viewBlogs', function(){
-	    	console.log('route viewBlogs triggered');
-	    	var blogView = new BlogView();
-	    	blogView.render();
-	      // var projectListView = new ProjectListView();
-	      // projectListView.render();
+	    	var blogListView = new BlogListView();
+	    	blogListView.render();
 	    });
 
-	    console.log('history start');
+	    router.on('route:viewBlog', function(blogId){
+	    	var blogEditView = new BlogEditView();
+	    	blogEditView.render({blogId:blogId});
+	    });
+
 	    Backbone.history.start();
 	};
 
   	return {
     	initialize: initialize
   	};
-
-    //return BlogRouter;
 });

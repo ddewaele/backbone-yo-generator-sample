@@ -33,7 +33,6 @@ require.config({
 require([
     'app'
 ], function (App) {
-
-    console.log("hello from App " + App);
+    // Initialize our application.
     App.initialize();
 });

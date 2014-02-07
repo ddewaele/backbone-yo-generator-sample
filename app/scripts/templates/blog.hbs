@@ -1,8 +1,8 @@
 <p>Blog list : </p>
 
-<table class="table">
+<table id="blog-list-datatable" class="table striped table-bordered">
 {{#each blogs}}
-	<tr><td>Title = </td><td>{{title}}</td></tr>
+	<tr><td><a href="#blogs/edit/{{_id}}">{{title}}</a></td><td>{{content}}</td></tr>
 {{/each}}
 </table>
 

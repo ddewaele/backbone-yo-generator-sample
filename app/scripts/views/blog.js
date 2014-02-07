@@ -25,7 +25,6 @@ define([
 	        console.log("Found blogs = " + data);
         	that.$el.html(that.template({ blogs: data.toJSON() }))
           	return this;  
-
 	      },
 	
 	      error: function(model, xhr, options) {

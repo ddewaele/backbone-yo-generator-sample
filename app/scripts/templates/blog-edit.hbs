@@ -1,8 +1,27 @@
-This is the blog-edit template
 
-<p>
-BlogID = {{blog.id}}
-</p>
-<p>
-Blog Title = {{blog.title}}
-</p>
+<div class="well-lg col-md-10">
+      <form id="blog-form" class="{{#if blog}}update-blog-form{{else}}save-blog-form{{/if}}" role="form">
+
+       
+        <div class="row">
+          
+           <div class="form-group">
+              <label for="id">ID</label>
+              <input id="id" name="id" type="text" class="form-control input-sm" value="{{blog.id}}" required>
+            </div>
+
+            <div class="form-group">
+                  <label for="title">Title</label>
+                  <input id="title" name="title" type="text" class="form-control input-sm" value="{{blog.title}}">
+            </div>
+            <div class="form-group">
+                  <label for="content">Content</label>
+                  <input id="content" name="content" type="text" class="form-control input-sm" value="{{blog.content}}">
+            </div>
+
+      </div>
+
+      	<a href="/#blogs" class="btn btn-primary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Aanpassen</button>
+
+      </form>

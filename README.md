@@ -408,16 +408,16 @@ data.each(function (f) { console.log(f.get('title')) });
 	
 # References
 
-http://weblog.bocoup.com/organizing-your-backbone-js-application-with-modules/
-http://gruntjs.com/
-http://backbonejs.org/
-http://jonkemp.com/backbone/setting-up-a-backbone-js-webapp-with-yeoman-grunt-and-bower-part-2.html
-http://backbonetutorials.com/organizing-backbone-using-modules/
-http://rockyj.in/2013/05/11/yeoman_and_backbone.html
-http://blog.revathskumar.com/2013/06/yeoman-backbone-generator.html
-https://github.com/yeoman/generator-backbone#readme	
-http://code.tutsplus.com/tutorials/building-apps-with-the-yeoman-workflow--net-33254
-http://handlebarsjs.com/
-http://www.9bitstudios.com/2013/05/using-templates-in-backbone-js/
-https://www.codeschool.com/courses/anatomy-of-backbonejs
-http://www.levihackwith.com/using-handlebars-each-blocks-with-backbone-collections-templates/
+- http://weblog.bocoup.com/organizing-your-backbone-js-application-with-modules/
+- http://gruntjs.com/
+- http://backbonejs.org/
+- http://jonkemp.com/backbone/setting-up-a-backbone-js-webapp-with-yeoman-grunt-and-bower-part-2.html
+- http://backbonetutorials.com/organizing-backbone-using-modules/
+- http://rockyj.in/2013/05/11/yeoman_and_backbone.html
+- http://blog.revathskumar.com/2013/06/yeoman-backbone-generator.html
+- https://github.com/yeoman/generator-backbone#readme	
+- http://code.tutsplus.com/tutorials/building-apps-with-the-yeoman-workflow--net-33254
+- http://handlebarsjs.com/
+- http://www.9bitstudios.com/2013/05/using-templates-in-backbone-js/
+- https://www.codeschool.com/courses/anatomy-of-backbonejs
+- http://www.levihackwith.com/using-handlebars-each-blocks-with-backbone-collections-templates/

@@ -8,6 +8,7 @@ define([
 
     var BlogModel = Backbone.Model.extend({
     	urlRoot: '/blogs',
+		idAttribute: '_id',
         defaults: {
         }
     });

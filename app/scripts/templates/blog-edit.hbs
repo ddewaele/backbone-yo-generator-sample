@@ -5,10 +5,16 @@
        
         <div class="row">
           
+              {{#if blog}}update-blog-form
            <div class="form-group">
+
               <label for="id">ID</label>
-              <input id="id" name="id" type="text" class="form-control input-sm" value="{{blog.id}}" required>
+			  <input type="text" class="form-control input-sm" value="{{blog._id}}" disabled>
+			  <input id="_id" name="_id" type="hidden" value="{{blog._id}}">
             </div>
+
+              {{/if}}
+              
 
             <div class="form-group">
                   <label for="title">Title</label>

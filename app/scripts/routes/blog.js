@@ -11,8 +11,8 @@ define([
     var BlogRouter = Backbone.Router.extend({
         routes: {
         	 "blogs" : "viewBlogs",
-        	 "blogs/edit/:blogId" : "viewBlog"
-
+        	 "blogs/edit/:blogId" : "viewBlog",
+        	 "blogs/new" : "createBlog"
         }
     });
 
@@ -30,10 +30,23 @@ define([
 	    	blogEditView.render({blogId:blogId});
 	    });
 
+	    router.on('route:createBlog', function(blogId){
+	    	var blogEditView = new BlogEditView();
+	    	blogEditView.render();
+	    });	    
+
+
+	    console.log("initializing the backbone history");
+
 	    Backbone.history.start();
+
+	    return router;
 	};
 
-  	return {
-    	initialize: initialize
-  	};
+	return initialize();
+
+
+  	// return {
+   //  	initialize: initialize
+  	// };
 });

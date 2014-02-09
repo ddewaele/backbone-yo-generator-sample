@@ -5,14 +5,41 @@ define([
     'underscore',
     'backbone',
     'templates',
-    'collections/blog'
-], function ($, _, Backbone, JST,BlogCollection) {
+    'collections/blog',
+    'models/blog'
+], function ($, _, Backbone, JST,BlogCollection,BlogModel) {
     'use strict';
 
     var BlogListView = Backbone.View.extend({
         template: JST['app/scripts/templates/blog.hbs'],
 
 		el: $('.page'),
+
+		events : {
+            'click .deleteBlog': 'deleteBlog'
+        },
+
+
+        deleteBlog : function(ev) {
+            console.log("Calling deleteBlog");
+            ev.preventDefault();
+            
+            var id = $(ev.currentTarget).data('blog-id');
+            
+            var blog = new BlogModel({
+                _id : id
+            });
+
+            blog.destroy({
+                success : function() {
+                    require(['routes/blog'], function (router) {
+                        router.navigate('/#blogs', {
+                            trigger : true
+                        });
+                    });
+                }
+            })
+        },
 
         render: function(){
 

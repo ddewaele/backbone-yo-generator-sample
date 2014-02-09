@@ -1,5 +1,7 @@
 # Introduction
 
+Important : This is very much a work in progress and I'm not an expert on the matter. This is just me writing down my experiences with Yeoman / Backbone and RequireJS.
+
 This repository contains a simple Backbone.JS project that was built using the yeoman backbone generator.
 I'm pretty new to yeoman and single-page javascript development so I welcome any pull requests.
 
@@ -27,11 +29,16 @@ These generators can be found on Github
 - https://github.com/yeoman/generator-backbone
 - https://github.com/yeoman/generator-ember
 
+# The backbone generator
 
-yo backbone [app-name]
-yo backbone --template-framework=handlebars
+The backbone generator can be started with the following command :
 
-bower install --save handlebars
+	yo backbone [app-name]
+
+If you want ot use handlebars as th templating framework (instead of the default Underscoe Templates), execute the command below:
+
+	yo backbone --template-framework=handlebars
+	bower install --save handlebars
 
 This will create the following files:
 
@@ -49,6 +56,8 @@ If there's an update available you'll be notified
 	Run npm update -g bower to update
 	-----------------------------------------
 
+## Scaffolding
+
 Typical workflow commands:
 
 	yo backbone 
@@ -58,25 +67,16 @@ Typical workflow commands:
 	yo backbone:view blog
 	grunt serve
 
-
-	yo backbone:model location
-	yo backbone:collection location
-	yo backbone:router location
-	yo backbone:view location
-
-
 # Building the webapp
 
 Execute the following command to have grunt build and package up the webapp in the `dist` folder.
 
 	grunt build
 	
-
 # Building on the base components 
 
 Now that we have a basic directory structure in place, it's time to add some business logic to our application
 and wire everything together. We'll start by looking at the bootstrap javascript file called `main.js`.
-
 
 ## The application bootstrap file
 
@@ -119,16 +119,24 @@ Here's what the file looks like:
 		}
 	});
 	
-	require([
-		'app'
-	], function (App) {
+	require(['app'], function (App) {
 		// Initialize our application.
 		App.initialize();
 	});
 
+
+The require call loads up our app.js script, and intitializes the object that the app.js script returns 
+
 ## The application file
 
 The primary application script (the one that got bootstrapped by the main application file) is called `app.js` and imports whatever dependencies we need (Backbone, our router, .....) and initializes our router object.
+
+The dependencies are called "modules" and they define a well-scoped object that avoids polluting the global namespace.
+
+The first parameter we pass on to the define function is an `array` of `dependency names`.
+The second paramter we pass on to the define function is a `definition function`.
+
+RequireJS ensures that this function is called when all other dependencies are resolved. Each dependency name returns a single object that is made available as an argument of the `definition function`
 
 	define([
 	  'jquery',
@@ -405,19 +413,79 @@ data.each(function (f) { console.log(f.get('title')) });
 	}
 
 
-	
+# Circular dependencies
+
+With the following code:
+
+	require("BlogRouter").initialize().navigate('/#blogs', {
+                        trigger : true
+                    });
+
+The following error occured:
+
+	Uncaught Error: Module name "BlogRouter" has not been loaded yet for context: _. Use require([])
+
+
+After changing the code above to this:
+
+    require(['routes/blog'], function (router) {
+        router.navigate('/#blogs', {
+            trigger : true
+        });
+    });
+
+It still got errors:
+
+	Error: Backbone.history has already been started
+
+
+## Backone IDs vs MongoDB ids
+
+
+If you have a model that has specified it's own ID
+
+    var BlogModel = Backbone.Model.extend({
+    	urlRoot: '/blogs',
+		idAttribute: '_id'
+	});
+
+When you create a new Backbone model like this:
+
+    var blog = new BlogModel({
+        id : blogDetails._id
+    });
+
+The object will **not** have an id, as you can see from the expressions below:
+
+
+	blog.get('_id')		undefined
+	blog.get('id')		"52f68b4b6ab6be5633000002"
+	blog.id 			undefined
+
+		
 # References
 
-- http://weblog.bocoup.com/organizing-your-backbone-js-application-with-modules/
 - http://gruntjs.com/
 - http://backbonejs.org/
+- http://requirejs.org/
+- http://handlebarsjs.com/
+
+- http://weblog.bocoup.com/organizing-your-backbone-js-application-with-modules/
 - http://jonkemp.com/backbone/setting-up-a-backbone-js-webapp-with-yeoman-grunt-and-bower-part-2.html
 - http://backbonetutorials.com/organizing-backbone-using-modules/
 - http://rockyj.in/2013/05/11/yeoman_and_backbone.html
 - http://blog.revathskumar.com/2013/06/yeoman-backbone-generator.html
 - https://github.com/yeoman/generator-backbone#readme	
 - http://code.tutsplus.com/tutorials/building-apps-with-the-yeoman-workflow--net-33254
-- http://handlebarsjs.com/
+
 - http://www.9bitstudios.com/2013/05/using-templates-in-backbone-js/
 - https://www.codeschool.com/courses/anatomy-of-backbonejs
 - http://www.levihackwith.com/using-handlebars-each-blocks-with-backbone-collections-templates/
+- http://javascriptplayground.com/blog/2012/07/requirejs-amd-tutorial-introduction/
+
+- http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+- https://github.com/thomasdavis/backboneboilerplate
+
+SO Post that helped me out.
+
+- http://stackoverflow.com/questions/16308658/require-js-module-not-seeing-backbone-router-js/16314250#16314250

@@ -1,21 +1,26 @@
 /*global define*/
 
+// Filename: blog-edit.js
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'templates',
-    'models/blog',
-    'routes/blog'
-], function ($, _, Backbone, JST,BlogModel,BlogRouter) {
+  'jquery',
+  'underscore',
+  'backbone',
+  'templates',
+  'routes/blog',
+  'models/blog'
+  
+], function($, _, Backbone, JST,BlogRouter,BlogModel){
     'use strict';
+
+
+    console.log("LOG1 : Referencing the BlogRouter fine = " + BlogRouter);
 
     var BlogEditView = Backbone.View.extend({
         template: JST['app/scripts/templates/blog-edit.hbs'],
 
         events : {
             'submit .save-blog-form' : 'saveBlog',
-            'submit .update-blog-form' : 'updateBlog'
+            'submit .update-blog-form' : 'updateBlog',
         },
 
 		el: $('.page'),
@@ -30,8 +35,10 @@ define([
 
             blog.save(blogDetails, {
                 success : function(user) {
-                    BlogRouter.navigate('/#blogs', {
-                        trigger : true
+                    require(['routes/blog'], function (router) {
+                        router.navigate('/#blogs', {
+                            trigger : true
+                        });
                     });
                 },
                 error : function(model, response, options) {
@@ -42,20 +49,38 @@ define([
         },
 
         updateBlog : function(ev) {
-            console.log("Calling updateBlog");
             ev.preventDefault();
             
             var blogDetails = $(ev.currentTarget).serializeObject();
 
+
             var blog = new BlogModel({
-                id : blogDetails.id
+                _id : blogDetails._id
             });
+
+            delete blogDetails._id;
+
+            console.log("Saving blog with payload : " + JSON.stringify(blogDetails));
+            
+            // Backbone will do a PUT if !isNew() , meaning that model.id != null  
+            // the way you set the id field depends on how the ID Attribute is configured on the model.
 
             blog.save(blogDetails, {
                 success : function(user) {
-                    BlogRouter.navigate('/#blogs', {
-                        trigger : true
+
+                    // This won't work due to circular dependencies.
+                    // BlogRouter.navigate('/#blogs', {
+                    //         trigger : true
+                    // });
+
+                    // This will.
+                    require(['routes/blog'], function (router) {
+                        router.navigate('/#blogs', {
+                            trigger : true
+                        });
                     });
+
+                    
                 },
                 error : function(model, response, options) {
                 }
@@ -63,43 +88,33 @@ define([
 
             return false;
         },
-        deleteBlog : function(ev) {
-            console.log("Calling deleteBlog");
-            ev.preventDefault();
-            
-            var id = $(ev.currentTarget).data('blog-id');
-            
-            var blog = new BlogModel({
-                id : id
-            });
-
-            blog.destroy({
-                success : function() {
-                    router.navigate('/#blogs', {
-                        trigger : true
-                    });
-                }
-            })
-        },
 
         render: function(options){
 
-    		var blog = new BlogModel({id:options.blogId});
-	       	
-            var that = this;
+            if (options && options.blogId) {
+                var blog = new BlogModel({_id:options.blogId});
+
+                var that = this;
+                
+                blog.fetch({
+                    success: function (data) {
+                        console.log("Found blog with payload " + JSON.stringify(data.toJSON()));
+                        that.$el.html(that.template({ blog: data.toJSON() }))
+                        return this;  
+                    },
             
-            blog.fetch({
-                success: function (data) {
-                    that.$el.html(that.template({ blog: data.toJSON() }))
-                    return this;  
-                },
-    	
-                error: function(model, xhr, options) {
-    	           console.log("Error occured while retreiving blogs. (Status = " + xhr.status+ ")");
-            	   that.$el.html(that.template({ blogId: "unkown" }))
-                    return this;  
-                }
-            });
+                    error: function(model, xhr, options) {
+                       console.log("Error occured while retreiving blogs. (Status = " + xhr.status+ ")");
+                       that.$el.html(that.template({ blogId: "unkown" }))
+                        return this;  
+                    }
+                });
+
+            } else {
+                this.$el.html(this.template({}))
+            }
+
+	       	
         }
     });
 

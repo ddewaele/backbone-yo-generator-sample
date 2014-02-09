@@ -16,22 +16,22 @@ define([
         }
     });
 
+    var blogListView = new BlogListView();
+	var blogEditView = new BlogEditView();
+	
     var initialize = function(){
 
     	var router = new BlogRouter;
     
 	    router.on('route:viewBlogs', function(){
-	    	var blogListView = new BlogListView();
 	    	blogListView.render();
 	    });
 
 	    router.on('route:viewBlog', function(blogId){
-	    	var blogEditView = new BlogEditView();
 	    	blogEditView.render({blogId:blogId});
 	    });
 
 	    router.on('route:createBlog', function(blogId){
-	    	var blogEditView = new BlogEditView();
 	    	blogEditView.render();
 	    });	    
 

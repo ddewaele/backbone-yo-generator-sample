@@ -462,7 +462,14 @@ The object will **not** have an id, as you can see from the expressions below:
 	blog.get('id')		"52f68b4b6ab6be5633000002"
 	blog.id 			undefined
 
-		
+## LiveReload
+
+Had a 1-time issues with Grunt when the reloading failed. Not sure what that was about
+
+	LiveReload protocol error (invalid command 'reload', only valid commands are: hello)) after receiving data: "{"command":"reload","path":"app/scripts/routes/blog2.js","liveCss":true,"liveJs":true}".. 
+
+
+
 # References
 
 - http://gruntjs.com/
@@ -470,9 +477,11 @@ The object will **not** have an id, as you can see from the expressions below:
 - http://requirejs.org/
 - http://handlebarsjs.com/
 
+- http://backbonetutorials.com/organizing-backbone-using-modules/
+- https://www.captechconsulting.com/blog/philip-kedy/modularizing-your-backbone-router-using-requirejs
 - http://weblog.bocoup.com/organizing-your-backbone-js-application-with-modules/
 - http://jonkemp.com/backbone/setting-up-a-backbone-js-webapp-with-yeoman-grunt-and-bower-part-2.html
-- http://backbonetutorials.com/organizing-backbone-using-modules/
+
 - http://rockyj.in/2013/05/11/yeoman_and_backbone.html
 - http://blog.revathskumar.com/2013/06/yeoman-backbone-generator.html
 - https://github.com/yeoman/generator-backbone#readme	
@@ -489,3 +498,5 @@ The object will **not** have an id, as you can see from the expressions below:
 SO Post that helped me out.
 
 - http://stackoverflow.com/questions/16308658/require-js-module-not-seeing-backbone-router-js/16314250#16314250
+
+- http://lostechies.com/derickbailey/2011/06/17/making-mongoid-play-nice-with-backbone-js/

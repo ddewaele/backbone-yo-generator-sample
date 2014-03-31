@@ -469,6 +469,47 @@ Had a 1-time issues with Grunt when the reloading failed. Not sure what that was
 	LiveReload protocol error (invalid command 'reload', only valid commands are: hello)) after receiving data: "{"command":"reload","path":"app/scripts/routes/blog2.js","liveCss":true,"liveJs":true}".. 
 
 
+## Grunt dependencies not found.
+
+Error while executing grunt build with the following errors
+
+	grunt build
+	>> Local Npm module "grunt-bower-requirejs" not found. Is it installed?
+	>> Local Npm module "grunt-requirejs" not found. Is it installed?
+	Warning: Task "requirejs" not found. Use --force to continue.
+
+	Aborted due to warnings.
+
+We need to run the `npm install` command to install all the npm modules.
+
+
+## Usemin 2.0 does not like RequireJS blocks
+
+When bumping the usemin version from the default `0.1.10` to `2.1.0` the following error pops up when running `grunt serve:dist` :
+
+	Running "useminPrepare:dist" (useminPrepare) task
+	Going through app/index.html to update the config
+	Looking for build script HTML comment blocks
+	Fatal error: require.js blocks are no more supported.
+
+Whenever it seems something like this in your html it will throw the error above
+
+	<!-- build:js js/app.min.js -->
+	<script data-main="js/main" src="js/vendor/require.js"></script>
+	<!-- -->
+
+## No compatible version found: chalk@'^0.4.0'
+
+The version of npm (1.2.15) that I was using was incompatible with this carrot sign.
+After upgrading npm to 1.4.6 I was able to use the new ^ operator.
+
+
+
+# Questions
+
+## Creating javascript modules
+
+
 
 # References
 
